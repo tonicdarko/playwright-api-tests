@@ -6,9 +6,15 @@ let authToken: string;
 test.beforeAll("Get Auth Token", async ({ api }) => {
   const tokenResponse = await api
     .path("/users/login")
-    .body({ email: "testingudemy@testing.com", password: "Brljotina12" })
+    .body({
+      user: {
+        email: "testingudemy@testing.com",
+        password: "Brljotina12",
+      },
+    })
     .postRequest(200);
 
+  expect(tokenResponse.user.token).toBeTruthy();
   authToken = "Token " + tokenResponse.user.token;
 });
 

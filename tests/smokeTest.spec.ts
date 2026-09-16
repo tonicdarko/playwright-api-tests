@@ -1,12 +1,18 @@
 import { test } from "../utils/fixtures";
 import { expect } from "@playwright/test";
+import { APIlogger } from "../utils/logger";
 
 let authToken: string;
 
 test.beforeAll("Get Auth Token", async ({ api }) => {
   const tokenResponse = await api
     .path("/users/login")
-    .body({ email: "testingudemy@testing.com", password: "Brljotina12" })
+    .body({
+      user: {
+        email: "testingudemy@testing.com",
+        password: "Brljotina12",
+      },
+    })
     .postRequest(200);
 
   authToken = "Token " + tokenResponse.user.token;

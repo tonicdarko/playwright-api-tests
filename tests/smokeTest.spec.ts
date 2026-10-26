@@ -32,6 +32,7 @@ test("Get Tags", async ({ api }) => {
   const response = await api.path("/tags").getRequest(200);
 
   expect(response.tags[0]).toEqual("Test");
+  expect(response.tags[0]).shouldEqual("Test");
   expect(response.tags.length).toBeLessThanOrEqual(10);
 });
 

@@ -5,7 +5,7 @@ import { APIlogger } from "./logger";
 export class RequestHandler {
   private request: APIRequestContext;
   private logger: APIlogger;
-  private baseUrl: string = "https://conduit-api.bondaracademy.com/api";
+  private baseUrl: string | undefined = "https://conduit-api.bondaracademy.com/api";
   private defaultBaseUrl: string = "";
   private apiPath: string = "";
   private queryParams: object = {};
@@ -54,6 +54,8 @@ export class RequestHandler {
       headers: this.apiHeaders,
     });
 
+    this.cleanUpFields()
+
     const actualStatus = response.status();
     const responseJson = await response.json();
     this.logger.logResponse(actualStatus, responseJson);
@@ -70,6 +72,8 @@ export class RequestHandler {
       headers: this.apiHeaders,
       data: this.apiBody,
     });
+
+    this.cleanUpFields()
 
     const actualStatus = response.status();
     const responseJson = await response.json();
@@ -88,6 +92,8 @@ export class RequestHandler {
       data: this.apiBody,
     });
 
+    this.cleanUpFields()
+
     const actualStatus = response.status();
     const responseJson = await response.json();
     this.logger.logResponse(actualStatus, responseJson);
@@ -104,6 +110,8 @@ export class RequestHandler {
       headers: this.apiHeaders,
     });
 
+    this.cleanUpFields()
+
     const actualStatus = response.status();
     this.logger.logResponse(actualStatus);
 
@@ -118,6 +126,14 @@ export class RequestHandler {
       url.searchParams.append(key, value);
     }
     return url.toString();
+  }
+
+  private cleanUpFields() {
+    this.apiBody = {}
+    this.apiHeaders = {}
+    this.baseUrl = undefined
+    this.apiPath = ''
+    this.queryParams = {}
   }
   /*
   private statusCodeValidation(

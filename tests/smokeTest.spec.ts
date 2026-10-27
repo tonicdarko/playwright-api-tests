@@ -1,6 +1,7 @@
 import { test } from "../utils/fixtures";
 import { expect } from "@playwright/test";
 import { APIlogger } from "../utils/logger";
+import { config } from "../api-test.config";
 
 let authToken: string;
 
@@ -9,8 +10,8 @@ test.beforeAll("Get Auth Token", async ({ api }) => {
     .path("/users/login")
     .body({
       user: {
-        email: "testingudemy@testing.com",
-        password: "Brljotina12",
+        email: config.userEmail,
+        password: config.password,
       },
     })
     .postRequest(200);

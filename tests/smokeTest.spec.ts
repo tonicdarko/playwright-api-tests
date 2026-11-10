@@ -2,21 +2,13 @@ import { test } from "../utils/fixtures";
 import { expect } from "@playwright/test";
 import { APIlogger } from "../utils/logger";
 import { config } from "../api-test.config";
+import { createToken } from "../helpers/createToken";
 
 let authToken: string;
 
 test.beforeAll("Get Auth Token", async ({ api }) => {
-  const tokenResponse = await api
-    .path("/users/login")
-    .body({
-      user: {
-        email: config.userEmail,
-        password: config.password,
-      },
-    })
-    .postRequest(200);
-
-  authToken = "Token " + tokenResponse.user.token;
+ 
+  authToken = await createToken(api, config.userEmail, config.password);
 });
 
 test("Get Articles", async ({ api }) => {
